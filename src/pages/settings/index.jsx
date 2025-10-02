@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Settings, Globe, Wifi, Info, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 
 import LanguageSettings from './components/LanguageSettings';
 import OfflineSettings from './components/OfflineSettings';
@@ -9,7 +8,6 @@ import AboutSection from './components/AboutSection';
 
 const SettingsPage = () => {
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
     const [activeSection, setActiveSection] = useState(null);
 
     // Add state for language settings
@@ -28,28 +26,9 @@ const SettingsPage = () => {
         navigate('/dashboard');
     };
 
-    const handleLogout = () => {
-        if (window.confirm('Are you sure you want to logout?')) {
-            logout();
-            navigate('/phone-authentication', { replace: true });
-        }
-    };
 
     const renderMainSettings = () => (
         <div className="space-y-4">
-            {/* User Info Section */}
-            {user && (
-                <div className="bg-green-50 rounded-lg p-4 mb-6">
-                    <h3 className="font-semibold text-green-800 mb-2">Account Information</h3>
-                    <p className="text-sm text-green-700">
-                        Phone: {user?.countryCode} {user?.phoneNumber}
-                    </p>
-                    <p className="text-xs text-green-600 mt-1">
-                        Verified on {new Date(user?.authenticatedAt)?.toLocaleDateString()}
-                    </p>
-                </div>
-            )}
-
             {/* Settings Options */}
             <div className="space-y-2">
                 <button
@@ -94,19 +73,6 @@ const SettingsPage = () => {
                     <ArrowLeft className="w-4 h-4 text-gray-400 rotate-180" />
                 </button>
 
-                {/* Logout Button */}
-                <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center justify-between p-4 bg-white rounded-lg border border-red-200 hover:bg-red-50 transition-colors mt-6"
-                >
-                    <div className="flex items-center space-x-3">
-                        <LogOut className="w-5 h-5 text-red-600" />
-                        <div className="text-left">
-                            <h3 className="font-medium text-red-900">Logout</h3>
-                            <p className="text-sm text-red-500">Sign out of your account</p>
-                        </div>
-                    </div>
-                </button>
             </div>
         </div>
     );

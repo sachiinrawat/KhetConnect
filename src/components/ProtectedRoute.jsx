@@ -37,3 +37,8 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+
+// This file is no longer needed.
